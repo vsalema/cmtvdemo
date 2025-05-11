@@ -1,41 +1,98 @@
-<!DOCTYPE html>
 <html>
-
 <head>
-    <title>full screen iframe</title>
-    <style type="text/css">
-        html {
-            overflow: auto;
-        }
-        
-        html,
-        body,
-        div,
-        iframe {
-            margin: 0px;
-            padding: 0px;
-            height: 100%;
-            border: none;
-        }
-        
-        iframe {
-            display: block;
-            width: 100%;
-            border: none;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-    </style>
-</head>
 
-<body>
-    <iframe src="https://vsalema.github.io/play3/?https://moonlight.wideiptv.top/CMTVPT/index.fmp4.m3u8?token=4b786b4dac33d99bd1d7e8662d3db3d5b4ecedec-b424ba6771a3f742d8af79d50f06ee5f-1746828420-1746817620&remote=no_check_ip?https://moonlight.wideiptv.top/CMTVPT/index.fmp4.m3u8?token=5b59096666d57754c90972c9cadddc0850ce5b22-67633875a08cdda90a13ff21fa1308a3-1746828776-1746817976&remote=no_check_ip?https://moonlight.wideiptv.top/CMTVPT/index.fmp4.m3u8?token=5f7e73ff7a2a517674dc71a40fa37ed4fac9d0b2-e67cdfc87efd61e93994db0ab8b3c31e-1746828855-1746818055&remote=no_check_ip"
-            frameborder="0" 
-            marginheight="0" 
-            marginwidth="0" 
-            width="100%" 
-            height="100%" 
-            scrolling="auto">
-  </iframe>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-</body>
+    <meta name="robots" content="noindex">
+    <meta name="googlebot" content="noindex">
+
+<script>
+var Timer;
+var TotalSeconds;
+
+function CreateTimer(TimerID, Time) {
+    Timer = document.getElementById(TimerID);
+    TotalSeconds = Time;    
+    UpdateTimer()
+    window.setTimeout("Tick()", 20);
+}
+
+function Tick() {
+	if (TotalSeconds <= 0) {
+        hideAd();
+        return;
+    }	
+    TotalSeconds -= 1;
+    UpdateTimer()
+    window.setTimeout("Tick()", 20);
+}
+
+function UpdateTimer() {
+	var Seconds = TotalSeconds;
+    
+    var Days = Math.floor(Seconds / 86400);
+    Seconds -= Days * 86400;
+
+    var Hours = Math.floor(Seconds / 3600);
+    Seconds -= Hours * (3600);
+
+    var Minutes = Math.floor(Seconds / 60);
+    Seconds -= Minutes * (60);
+	
+	if(Minutes == 20)  document.getElementById('ad_close').style.display ='';
+
+    var TimeStr = ((Days > 0) ? Days + " days " : "") + LeadingZero(Minutes) + ":" + LeadingZero(Seconds);	
+    Timer.innerHTML = 'Ad will be close in ' + TimeStr;
+}
+
+function LeadingZero(Time) {
+    return (Time < 10) ? "0" + Time : + Time;
+}
+
+function hideAd() {
+ document.getElementById('ad_container').style.display ='none';
+ document.getElementById('ad_overlay').style.display   ='none';
+}
+</script>
+<style type="text/css">
+.ad_container {
+	width     :300px;
+    background:#999;
+ 	margin    :88px 150px;
+	padding   :5px 5px;
+	position  :absolute;
+	z-index   :10001;
+	display   :none;
+}
+.ad_header {	
+	font-family:Arial, Helvetica, sans-serif;
+	font-size  :14px;
+	font-weight:bold;
+	color      :#fff;
+	height     :25px;	
+}
+.ad_content {
+	width :300px;
+	height:250px;	
+}
+.ad_overlay {
+	background  :#000;
+	filter      :alpha(opacity=50);
+	-moz-opacity:.50;
+	opacity     :.50;
+    width       :600px;
+    height      :400px;
+	position    :absolute;
+	display     :none;
+}
+#player_div {
+	z-index:0;
+	position:absolute;
+}
+</style>
+
+</head>                                  
+<body bgcolor="#000000" topmargin=0 marginheight=0 style="padding-top:0px; margin:0px; oncontextmenu="return false">
+
+  <iframe src="//popcdn.day/player.php?stream=CMTVPT" width="100%" height="100%" allow="encrypted-media" class="embed-responsive-item" allowfullscreen="yes" scrolling="no" frameborder="0"></iframe>
+  
